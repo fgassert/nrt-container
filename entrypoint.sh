@@ -16,13 +16,12 @@ else
     cd $NRT_DIR
 fi
 
-cp ../.env .env
-
 # set up crontab
 echo "Creating cronfile"
 rm -f crontab
 find . -name "*.cron" | while read fname; do
-    cp -f .env $(basename $(dirname $fname))
+    cp -f ../.env $(basename $(dirname $fname))
+    cp -f ../credentials.json $(basename $(dirname $fname))
     echo "$(cat $fname) cd $(pwd)/$(basename $(dirname $fname)) && LOG=$LOG ./start.sh >> /var/log/cron 2>&1" >> cron.tmp
 done
 
