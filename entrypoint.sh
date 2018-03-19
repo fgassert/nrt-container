@@ -18,8 +18,12 @@ fi
 echo "Creating cronfile"
 rm -f crontab
 find . -name "*.cron" | while read fname; do
-    cp -f ../.env $(basename $(dirname $fname))
-    echo "$(cat $fname) cd $(pwd)/$(basename $(dirname $fname)) && LOG=$LOG ./start.sh >> /var/log/cron 2>&1" >> cron.tmp
+    DIR=$(basename $(dirname $fname))
+    cp -f ../.env $DIR
+    chmod +x $DIR/start.sh
+    mkdir -p $DIR/data
+    chmod -R 0777 $DIR/data
+    echo "$(cat $fname) cd $(pwd)/$DIR && LOG=$LOG ./start.sh >> /var/log/cron 2>&1" >> cron.tmp
 done
 
 crontab cron.tmp
