@@ -22,8 +22,13 @@ find . -name "*.cron" | while read fname; do
     cp -f ../.env $DIR
     chmod +x $DIR/start.sh
     mkdir -p $DIR/data
-    chmod -R 0777 $DIR/data
-    echo "$(cat $fname) cd $(pwd)/$DIR && LOG=$LOG ./start.sh >> /var/log/cron 2>&1" >> cron.tmp
+    if [ -z $CRONNOW ]
+    then
+        CRON=$(cat $fname)
+    else
+        CRON="$(expr $(date +%M) + 2) $(date +%H) * * *"
+    fi
+    echo "$CRON cd $(pwd)/$DIR && LOG=$LOG ./start.sh >> /var/log/cron 2>&1" >> cron.tmp
 done
 
 crontab cron.tmp
