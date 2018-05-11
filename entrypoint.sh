@@ -2,7 +2,7 @@
 
 NRT_REPO=${TARGET_REPO:-https://github.com/resource-watch/nrt-scripts.git}
 NRT_DIR=$(basename $NRT_REPO .git)
-LOG=udp://logs6.papertrailapp.com:37123
+LOG=${LOG:-udp://logs6.papertrailapp.com:37123}
 
 # fetch repo
 echo "pulling repository"
