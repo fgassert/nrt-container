@@ -14,4 +14,4 @@ COPY .env .
 RUN chmod +x entrypoint.sh
 RUN touch /var/log/cron
 
-CMD sh entrypoint.sh && crond -l 7 && tail -f /var/log/cron
+CMD sh entrypoint.sh && crond -l 7
